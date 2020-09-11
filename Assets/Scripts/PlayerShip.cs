@@ -10,7 +10,7 @@ public class PlayerShip : MonoBehaviour {
     private Transform FrontCannon;
     private Transform[] LateralCannon = new Transform[8];
 
-    [SerializeField] private Collider2D shipCollider;
+    [SerializeField] private Collider2D shipCollider = null;
     // Start is called before the first frame update
     void Start() {
         FrontCannon = gameObject.transform.GetChild(0);
@@ -38,9 +38,8 @@ public class PlayerShip : MonoBehaviour {
     }
 
     public void RotateShip(float direction) {
-        transform.Rotate(0, 0, direction * -1);
+        transform.Rotate(0, 0, direction * -90 * Time.deltaTime);
     }
-
 
     public void FrontShoot() {
         Instantiate(bullet,FrontCannon.position, FrontCannon.rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
