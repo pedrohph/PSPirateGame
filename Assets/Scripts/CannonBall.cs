@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CannonBall : MonoBehaviour
 {
-    public float bulletSpeed;
-    public int bulletDamage;
+    [SerializeField]float bulletSpeed = 10;
+    [SerializeField]int bulletDamage;
     // Update is called once per frame
     void Update()
     {
@@ -19,5 +19,9 @@ public class CannonBall : MonoBehaviour
     public void Setup(int damage, Collider2D creatorCollider) {
         bulletDamage = damage;
         Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), creatorCollider);
+    }
+
+    private void OnBecameInvisible() {
+        Destroy(gameObject);
     }
 }

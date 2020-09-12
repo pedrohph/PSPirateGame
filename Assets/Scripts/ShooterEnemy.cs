@@ -10,6 +10,7 @@ public class ShooterEnemy : Enemy {
     public float visionRange;
 
     public GameObject bullet;
+    public float rechargeTime;
 
     // Start is called before the first frame update
     void Start() {
@@ -31,8 +32,8 @@ public class ShooterEnemy : Enemy {
         }
     }
 
-    public IEnumerator Recharge() {
-        yield return new WaitForSeconds(0.5f);
+    private IEnumerator Recharge() {
+        yield return new WaitForSeconds(rechargeTime);
         attacking = false;
     }
 }
