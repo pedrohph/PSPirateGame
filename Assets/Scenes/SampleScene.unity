@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 725307480427347790, guid: 4e575b8fc2e64504bb04f8a1b8e0abb7, type: 3}
+  - {fileID: 5375856364490740163, guid: dcb1d98b3b6b1b04ab867307b2a19c28, type: 3}
   playerTransform: {fileID: 918542163}
   spawnTime: 2
 --- !u!4 &155179792
@@ -183,6 +184,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   islands:
   - {fileID: 3152763263980619486, guid: e8e815c70689b7e4d9c05ec0ef4316d7, type: 3}
+  - {fileID: 8433035126633273798, guid: facccc9ffa6d00a49954b3c0da06abd0, type: 3}
+  - {fileID: 8433035126633273798, guid: facccc9ffa6d00a49954b3c0da06abd0, type: 3}
+  - {fileID: 8433035126633273798, guid: facccc9ffa6d00a49954b3c0da06abd0, type: 3}
   - {fileID: 8433035126633273798, guid: facccc9ffa6d00a49954b3c0da06abd0, type: 3}
 --- !u!1 &271187980
 GameObject:
@@ -502,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 10
   bullet: {fileID: 4535404750919188982, guid: 848cf7db1c791c8449b0306c2098c9d0, type: 3}
-  playerSpeed: 3
+  playerSpeed: 3.5
   playerDamage: 1
   shipCollider: {fileID: 918542164}
 --- !u!212 &918542162

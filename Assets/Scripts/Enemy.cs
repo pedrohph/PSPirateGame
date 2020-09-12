@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
     protected bool attacking = false;
 
     [SerializeField] Transform[] evadeDestinationTransform = new Transform[2];
+    public GameObject explosion;
 
 
     // Update is called once per frame
@@ -99,7 +100,12 @@ public class Enemy : MonoBehaviour {
     public void ReceiveDamage(int damage) {
         enemyHealth -= damage;
         if(enemyHealth <= 0) {
-            Destroy(gameObject);
+            Explode();
         }
+    }
+
+    public void Explode() {
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }

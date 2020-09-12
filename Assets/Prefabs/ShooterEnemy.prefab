@@ -156,6 +156,8 @@ MonoBehaviour:
   evadeDestinationTransform:
   - {fileID: 725307482162148412}
   - {fileID: 725307481100195604}
+  explosion: {fileID: 1822830141722014983, guid: 5d0b317e7bad14949b287abc607053e7,
+    type: 3}
   sightTransform: {fileID: 725307481717106816}
   visionRange: 3
   bullet: {fileID: 4535404750919188982, guid: 848cf7db1c791c8449b0306c2098c9d0, type: 3}
