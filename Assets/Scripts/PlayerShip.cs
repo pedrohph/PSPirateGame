@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShip : MonoBehaviour {
+    public int playerHealth;
     public GameObject bullet;
     public float playerSpeed;
     public int playerDamage;
@@ -48,6 +49,13 @@ public class PlayerShip : MonoBehaviour {
     public void SideShoot() {
         for(int i = 0; i<6; i++) {
             Instantiate(bullet, LateralCannon[i].position, LateralCannon[i].rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
+        }
+    }
+
+    public void ReceiveDamage(int damage) {
+       playerHealth -= damage;
+        if (playerHealth <= 0) {
+            Destroy(gameObject);
         }
     }
 }

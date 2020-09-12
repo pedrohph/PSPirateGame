@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+    public int enemyHealth;
     public float enemySpeed;
     public int enemyDamage;
 
@@ -94,4 +95,11 @@ public class Enemy : MonoBehaviour {
     }
 
     public virtual void Attack() { }
+
+    public void ReceiveDamage(int damage) {
+        enemyHealth -= damage;
+        if(enemyHealth <= 0) {
+            Destroy(gameObject);
+        }
+    }
 }

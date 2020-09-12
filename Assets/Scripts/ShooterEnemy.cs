@@ -20,7 +20,9 @@ public class ShooterEnemy : Enemy {
 
     public override void Attack() {
         attacking = true;
-        Instantiate(bullet, FrontCannon.position, FrontCannon.rotation).GetComponent<CannonBall>().Setup(enemyDamage, shipCollider);
+        GameObject newBullet = Instantiate(bullet, FrontCannon.position, FrontCannon.rotation);
+        newBullet.GetComponent<CannonBall>().Setup(enemyDamage, shipCollider);
+        newBullet.layer = LayerMask.NameToLayer("EnemyBullet");
         StartCoroutine(Recharge());
     }
 
