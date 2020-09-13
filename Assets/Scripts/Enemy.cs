@@ -20,10 +20,17 @@ public class Enemy : MonoBehaviour {
     [SerializeField] Transform[] evadeDestinationTransform = new Transform[2];
     public GameObject explosion;
 
+    bool gameOver = false;
+
+    public delegate void EnemyDestroyedByPlayer();
+    public event EnemyDestroyedByPlayer ReceivedPoint;
+
+    public delegate void EnemyDestroyed(Enemy enemy);
+    public event EnemyDestroyed Destroyed;
 
     // Update is called once per frame
     void Update() {
-        if (!attacking) {
+        if (!attacking && !gameOver) {
             Move();
         }
     }
@@ -100,12 +107,22 @@ public class Enemy : MonoBehaviour {
     public void ReceiveDamage(int damage) {
         enemyHealth -= damage;
         if(enemyHealth <= 0) {
+           if(ReceivedPoint != null) {
+                ReceivedPoint();
+            }
             Explode();
         }
     }
 
     public void Explode() {
+        if (Destroyed != null) {
+            Destroyed(this);
+        }
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
+    }
+
+   public void OnPlayerDestroyed() {
+        gameOver = true;
     }
 }

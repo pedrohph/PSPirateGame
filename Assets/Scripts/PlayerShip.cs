@@ -8,15 +8,19 @@ public class PlayerShip : MonoBehaviour {
     public float playerSpeed;
     public int playerDamage;
 
-    private Transform FrontCannon;
-    private Transform[] LateralCannon = new Transform[8];
+    private Transform frontCannon;
+    private Transform[] lateralCannon = new Transform[8];
 
     [SerializeField] private Collider2D shipCollider = null;
+
+    public delegate void PlayerDestroyed();
+    public event PlayerDestroyed Destroyed;
+
     // Start is called before the first frame update
     void Start() {
-        FrontCannon = gameObject.transform.GetChild(0);
-        for(int i = 0; i<6; i++) {
-            LateralCannon[i] = gameObject.transform.GetChild(i + 1);
+        frontCannon = gameObject.transform.GetChild(0);
+        for (int i = 0; i < 6; i++) {
+            lateralCannon[i] = gameObject.transform.GetChild(i + 1);
         }
     }
 
@@ -28,7 +32,7 @@ public class PlayerShip : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Z)) {
             FrontShoot();
-        }else if (Input.GetKeyDown(KeyCode.X)) {
+        } else if (Input.GetKeyDown(KeyCode.X)) {
             SideShoot();
         }
         RotateShip(Input.GetAxis("Horizontal"));
@@ -43,18 +47,21 @@ public class PlayerShip : MonoBehaviour {
     }
 
     public void FrontShoot() {
-        Instantiate(bullet,FrontCannon.position, FrontCannon.rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
+        Instantiate(bullet, frontCannon.position, frontCannon.rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
     }
 
     public void SideShoot() {
-        for(int i = 0; i<6; i++) {
-            Instantiate(bullet, LateralCannon[i].position, LateralCannon[i].rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
+        for (int i = 0; i < 6; i++) {
+            Instantiate(bullet, lateralCannon[i].position, lateralCannon[i].rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
         }
     }
 
     public void ReceiveDamage(int damage) {
-       playerHealth -= damage;
+        playerHealth -= damage;
         if (playerHealth <= 0) {
+            if (Destroyed != null) {
+                Destroyed();
+            }
             Destroy(gameObject);
         }
     }

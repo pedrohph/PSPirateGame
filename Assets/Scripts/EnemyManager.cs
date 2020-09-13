@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
     [SerializeField] List<GameObject> enemies = new List<GameObject>();
-    [SerializeField] Transform playerTransform = null;
+    public Model model;
+    public GameObject player;
+    Transform playerTransform;
     Vector3 spawnPosition;
 
     public float spawnTime = 2;
@@ -12,9 +14,13 @@ public class EnemyManager : MonoBehaviour {
     float screenSizeX;
     float screenSizeY;
 
-
     // Start is called before the first frame update
     void Start() {
+
+        playerTransform = player.transform;
+
+        PlayerShip playerShip = player.GetComponent<PlayerShip>();
+        playerShip.Destroyed += OnPlayerDestroyed;
 
         Vector3 worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
         screenSizeX = worldDimensions.x;
@@ -31,9 +37,18 @@ public class EnemyManager : MonoBehaviour {
         if (Physics2D.CircleCast(spawnPosition, 0.5f, Vector2.zero, 1 << LayerMask.NameToLayer("Island"))) {
             SpawnEnemies();
         } else {
-            Instantiate(enemies[enemyId], spawnPosition, Quaternion.Euler(0, 0, Random.Range(0, 360))).GetComponent<Enemy>().playerTransform = playerTransform;
+            GameObject newEnemy = Instantiate(enemies[enemyId], spawnPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+            newEnemy.GetComponent<Enemy>().playerTransform = playerTransform;
+
+            player.GetComponent<PlayerShip>().Destroyed += newEnemy.GetComponent<Enemy>().OnPlayerDestroyed;
+            newEnemy.GetComponent<Enemy>().ReceivedPoint += model.OnReceivePoint;
+            newEnemy.GetComponent<Enemy>().Destroyed += model.OnEnemyDestroyed;
         }
 
         
+    }
+
+    private void OnPlayerDestroyed() {
+        CancelInvoke("SpawnEnemies");
     }
 }
