@@ -16,8 +16,13 @@ public class PlayerShip : MonoBehaviour {
     public delegate void PlayerDestroyed();
     public event PlayerDestroyed Destroyed;
 
+    public GameObject lifeStatusObject;
+    LifeStatus lifeBar;
+
     // Start is called before the first frame update
     void Start() {
+        lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
+        lifeBar.Setup(transform, playerHealth);
         frontCannon = gameObject.transform.GetChild(0);
         for (int i = 0; i < 6; i++) {
             lateralCannon[i] = gameObject.transform.GetChild(i + 1);
@@ -58,6 +63,7 @@ public class PlayerShip : MonoBehaviour {
 
     public void ReceiveDamage(int damage) {
         playerHealth -= damage;
+        lifeBar.UpdateLife(playerHealth);
         if (playerHealth <= 0) {
             if (Destroyed != null) {
                 Destroyed();

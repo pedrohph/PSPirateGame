@@ -28,6 +28,14 @@ public class Enemy : MonoBehaviour {
     public delegate void EnemyDestroyed(Enemy enemy);
     public event EnemyDestroyed Destroyed;
 
+    public GameObject lifeStatusObject;
+    LifeStatus lifeBar;
+
+    private void Awake() {
+        lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
+        lifeBar.Setup(transform, enemyHealth);
+    }
+
     // Update is called once per frame
     void Update() {
         if (!attacking && !gameOver) {
@@ -106,6 +114,7 @@ public class Enemy : MonoBehaviour {
 
     public void ReceiveDamage(int damage) {
         enemyHealth -= damage;
+        lifeBar.UpdateLife(enemyHealth);
         if(enemyHealth <= 0) {
            if(ReceivedPoint != null) {
                 ReceivedPoint();

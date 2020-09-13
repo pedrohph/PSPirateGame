@@ -696,7 +696,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!224 &729242318
 RectTransform:
@@ -786,6 +786,8 @@ MonoBehaviour:
   playerSpeed: 3.5
   playerDamage: 1
   shipCollider: {fileID: 918542164}
+  lifeStatusObject: {fileID: 4711772509903510552, guid: c2b35ebcac550d34a817954543d1895e,
+    type: 3}
 --- !u!212 &918542162
 SpriteRenderer:
   m_ObjectHideFlags: 0

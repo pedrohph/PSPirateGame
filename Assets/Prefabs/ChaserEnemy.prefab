@@ -156,6 +156,8 @@ MonoBehaviour:
   - {fileID: 5375856364890978713}
   explosion: {fileID: 1822830141722014983, guid: 5d0b317e7bad14949b287abc607053e7,
     type: 3}
+  lifeStatusObject: {fileID: 4711772509903510552, guid: c2b35ebcac550d34a817954543d1895e,
+    type: 3}
 --- !u!1 &5375856364890978712
 GameObject:
   m_ObjectHideFlags: 0

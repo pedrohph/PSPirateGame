@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\Scripts\Hud.cs" />
     <Compile Include="Assets\Scripts\IslandManager.cs" />
+    <Compile Include="Assets\Scripts\LifeStatus.cs" />
     <Compile Include="Assets\Scripts\Model.cs" />
     <Compile Include="Assets\Scripts\PlayerShip.cs" />
     <Compile Include="Assets\Scripts\ShooterEnemy.cs" />
