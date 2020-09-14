@@ -12,7 +12,7 @@ public class PlayerShip : MonoBehaviour {
     public int playerDamage;
 
     private Animator animator;
-   
+
     private Transform frontCannon;
     private Transform[] lateralCannon = new Transform[8];
 
@@ -23,9 +23,11 @@ public class PlayerShip : MonoBehaviour {
 
     public GameObject lifeStatusObject;
     LifeStatus lifeBar;
-
+    Vector3 worldDimensions;
     // Start is called before the first frame update
     void Start() {
+        worldDimensions =Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
+        worldDimensions -= Vector3.one * 0.5f;
         animator = gameObject.GetComponent<Animator>();
         currentHealth = playerHealth;
         lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
@@ -52,6 +54,7 @@ public class PlayerShip : MonoBehaviour {
 
     public void MoveForward() {
         transform.Translate(Vector3.down * Time.deltaTime * playerSpeed);
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -worldDimensions.x, worldDimensions.x), Mathf.Clamp(transform.position.y, -worldDimensions.y, worldDimensions.y));
     }
 
     public void RotateShip(float direction) {
@@ -61,7 +64,7 @@ public class PlayerShip : MonoBehaviour {
     public void FrontShoot() {
         Instantiate(cannonExplosion, frontCannon.position, frontCannon.rotation, transform);
         Instantiate(bullet, frontCannon.position, frontCannon.rotation).GetComponent<CannonBall>().Setup(playerDamage, shipCollider);
-        
+
     }
 
     public void SideShoot() {
@@ -74,7 +77,7 @@ public class PlayerShip : MonoBehaviour {
     public void ReceiveDamage(int damage) {
         currentHealth -= damage;
         lifeBar.UpdateLife(currentHealth);
-        animator.SetInteger("Deterioration", (currentHealth *100 / playerHealth));
+        animator.SetInteger("Deterioration", (currentHealth * 100 / playerHealth));
         if (currentHealth <= 0) {
             if (Destroyed != null) {
                 Destroyed();

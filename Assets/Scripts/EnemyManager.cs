@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour {
     Vector3 spawnPosition;
 
     public float spawnTime = 2;
-    
+
     float screenSizeX;
     float screenSizeY;
 
@@ -22,30 +22,36 @@ public class EnemyManager : MonoBehaviour {
         model.GameOver += OnGameOver;
 
         Vector3 worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
-        screenSizeX = worldDimensions.x;
-        screenSizeY = worldDimensions.y;
+        screenSizeX = worldDimensions.x - 1;
+        screenSizeY = worldDimensions.y - 1;
 
         InvokeRepeating("SpawnEnemies", spawnTime, spawnTime);
     }
 
     private void SpawnEnemies() {
+        int emergencyExit = 0;
         int enemyId = Random.Range(0, enemies.Count);
+        bool created = false;
+        do {
+            spawnPosition = new Vector3(Random.Range(-screenSizeX, screenSizeX), Random.Range(-screenSizeY, screenSizeY), 0);
 
-        spawnPosition = new Vector3(Random.Range(-screenSizeX, screenSizeX), Random.Range(-screenSizeY, screenSizeY), 0);
+            emergencyExit++;
+            if (emergencyExit > 8) {
+                spawnPosition = new Vector3(screenSizeX, -screenSizeY);
+            }
 
+            if (!Physics2D.CircleCast(spawnPosition, 0.5f, Vector2.zero, 1 << LayerMask.NameToLayer("Island")) && !Physics2D.CircleCast(spawnPosition, 2f, Vector2.zero, 1 << LayerMask.NameToLayer("Player"))){                
+                GameObject newEnemy = Instantiate(enemies[enemyId], spawnPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+                newEnemy.GetComponent<Enemy>().playerTransform = playerTransform;
+                newEnemy.GetComponent<Enemy>().Destroyed += model.OnEnemyDestroyed;
+                model.GameOver += newEnemy.GetComponent<Enemy>().OnGameOver;
+                created = true;
+            }else if (emergencyExit > 8) {
+                break;
+            }
+          
+        } while (!created);
 
-        if (Physics2D.CircleCast(spawnPosition, 0.5f, Vector2.zero, 1 << LayerMask.NameToLayer("Island"))) {
-            SpawnEnemies();
-        } else if (Physics2D.CircleCast(spawnPosition, 3f, Vector2.zero, 1 << LayerMask.NameToLayer("Player"))) {
-            SpawnEnemies();
-        } else {
-            GameObject newEnemy = Instantiate(enemies[enemyId], spawnPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
-            newEnemy.GetComponent<Enemy>().playerTransform = playerTransform;
-            newEnemy.GetComponent<Enemy>().Destroyed += model.OnEnemyDestroyed;
-            model.GameOver += newEnemy.GetComponent<Enemy>().OnGameOver;
-        }
-
-        
     }
 
     private void OnGameOver() {
