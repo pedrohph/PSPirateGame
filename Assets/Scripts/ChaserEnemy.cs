@@ -7,7 +7,7 @@ public class ChaserEnemy : Enemy
     private void OnCollisionEnter2D(Collision2D collision) {
         if(collision.gameObject.GetComponent<PlayerShip>() != null) {
             collision.gameObject.GetComponent<PlayerShip>().ReceiveDamage(enemyDamage);
-            Explode();
+            Explode(false);
         }
     }
 }

@@ -12,7 +12,6 @@ public class LifeStatus : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        healthBar = transform.GetChild(0);
         if(targetTransform == null) {
             Destroy(gameObject);
         } else {
@@ -24,9 +23,13 @@ public class LifeStatus : MonoBehaviour {
         targetTransform = target;
         this.maxLife = maxLife;
         transform.position = targetTransform.position + distance;
+        healthBar = transform.GetChild(0);
     }
 
     public void UpdateLife(int currentLife) {
+        if(healthBar == null) {
+            healthBar = transform.GetChild(0);
+        }
         healthBar.localScale = new Vector3(currentLife/ maxLife,1,0);
     }
 }

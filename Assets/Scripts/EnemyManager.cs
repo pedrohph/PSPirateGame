@@ -19,8 +19,7 @@ public class EnemyManager : MonoBehaviour {
 
         playerTransform = player.transform;
 
-        PlayerShip playerShip = player.GetComponent<PlayerShip>();
-        playerShip.Destroyed += OnPlayerDestroyed;
+        model.GameOver += OnGameOver;
 
         Vector3 worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
         screenSizeX = worldDimensions.x;
@@ -34,21 +33,22 @@ public class EnemyManager : MonoBehaviour {
 
         spawnPosition = new Vector3(Random.Range(-screenSizeX, screenSizeX), Random.Range(-screenSizeY, screenSizeY), 0);
 
+
         if (Physics2D.CircleCast(spawnPosition, 0.5f, Vector2.zero, 1 << LayerMask.NameToLayer("Island"))) {
+            SpawnEnemies();
+        } else if (Physics2D.CircleCast(spawnPosition, 3f, Vector2.zero, 1 << LayerMask.NameToLayer("Player"))) {
             SpawnEnemies();
         } else {
             GameObject newEnemy = Instantiate(enemies[enemyId], spawnPosition, Quaternion.Euler(0, 0, Random.Range(0, 360)));
             newEnemy.GetComponent<Enemy>().playerTransform = playerTransform;
-
-            player.GetComponent<PlayerShip>().Destroyed += newEnemy.GetComponent<Enemy>().OnPlayerDestroyed;
-            newEnemy.GetComponent<Enemy>().ReceivedPoint += model.OnReceivePoint;
             newEnemy.GetComponent<Enemy>().Destroyed += model.OnEnemyDestroyed;
+            model.GameOver += newEnemy.GetComponent<Enemy>().OnGameOver;
         }
 
         
     }
 
-    private void OnPlayerDestroyed() {
+    private void OnGameOver() {
         CancelInvoke("SpawnEnemies");
     }
 }

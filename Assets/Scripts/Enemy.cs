@@ -22,10 +22,10 @@ public class Enemy : MonoBehaviour {
 
     bool gameOver = false;
 
-    public delegate void EnemyDestroyedByPlayer();
-    public event EnemyDestroyedByPlayer ReceivedPoint;
+    //public delegate void EnemyDestroyedByPlayer();
+    //public event EnemyDestroyedByPlayer ReceivedPoint;
 
-    public delegate void EnemyDestroyed(Enemy enemy);
+    public delegate void EnemyDestroyed(Enemy enemy, bool byPlayer);
     public event EnemyDestroyed Destroyed;
 
     public GameObject lifeStatusObject;
@@ -115,23 +115,21 @@ public class Enemy : MonoBehaviour {
     public void ReceiveDamage(int damage) {
         enemyHealth -= damage;
         lifeBar.UpdateLife(enemyHealth);
-        if(enemyHealth <= 0) {
-           if(ReceivedPoint != null) {
-                ReceivedPoint();
-            }
-            Explode();
+
+        if (enemyHealth <= 0) {
+            Explode(true);
         }
     }
 
-    public void Explode() {
+    public void Explode(bool byPlayer) {
         if (Destroyed != null) {
-            Destroyed(this);
+            Destroyed(this, byPlayer);
         }
         Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
-   public void OnPlayerDestroyed() {
+    public void OnGameOver() {
         gameOver = true;
     }
 }

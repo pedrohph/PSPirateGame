@@ -5,9 +5,13 @@ using UnityEngine;
 public class Model : MonoBehaviour {
     public Hud hud;
 
-    public float time = 60;
+    public int time = 60;
     public int totalScore = 0;
     public PlayerShip player;
+
+    public delegate void OnGameOver();
+    public event OnGameOver GameOver;
+
 
     // Start is called before the first frame update
     void Start() {
@@ -21,22 +25,31 @@ public class Model : MonoBehaviour {
 
     }
 
-    public void OnEnemyDestroyed(Enemy destroyedEnemy) {
-        destroyedEnemy.ReceivedPoint -= OnReceivePoint;
+    public void OnEnemyDestroyed(Enemy destroyedEnemy, bool byPlayer) {
+        // destroyedEnemy.ReceivedPoint -= OnReceivePoint;
+        if (byPlayer) {
+            totalScore++;
+            hud.UpdateScore(totalScore);
+        }
         destroyedEnemy.Destroyed -= OnEnemyDestroyed;
-    }
-
-    public void OnReceivePoint() {
-        totalScore++;
-        hud.UpdateScore(totalScore);
     }
 
     public void DecreaseTime() {
         time--;
         hud.UpdateTime(time);
+        if(time <= 0) {
+            FinishGame();
+        }
+    }
+
+    public void FinishGame() {
+        if(GameOver != null) {
+            GameOver();
+        }
+        CancelInvoke("DecreaseTime");
     }
 
     public void OnPlayerDestroyed() {
-        CancelInvoke("DecreaseTime");
+        FinishGame();
     }
 }
