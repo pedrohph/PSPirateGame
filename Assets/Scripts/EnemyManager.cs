@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-
+        spawnTime = PlayerPrefs.GetInt("SpawnTime", 1);
         playerTransform = player.transform;
 
         model.GameOver += OnGameOver;

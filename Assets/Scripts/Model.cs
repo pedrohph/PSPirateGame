@@ -5,7 +5,7 @@ using UnityEngine;
 public class Model : MonoBehaviour {
     public Hud hud;
 
-    public int time = 60;
+    int time = 60;
     public int totalScore = 0;
     public PlayerShip player;
 
@@ -16,6 +16,7 @@ public class Model : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        time = PlayerPrefs.GetInt("SessionTime", 60);
         player.Destroyed += OnPlayerDestroyed;
         hud.UpdateTime(time);
         InvokeRepeating("DecreaseTime", 1, 1);
