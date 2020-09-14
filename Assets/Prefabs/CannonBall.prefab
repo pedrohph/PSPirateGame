@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 10
   bulletDamage: 0
+  explosion: {fileID: 6690545355230133096, guid: 2e8e7ffe6db522746b93f49bf93522e3,
+    type: 3}
 --- !u!58 &8062379860800036336
 CircleCollider2D:
   m_ObjectHideFlags: 0

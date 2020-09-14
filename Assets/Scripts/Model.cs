@@ -12,6 +12,7 @@ public class Model : MonoBehaviour {
     public delegate void OnGameOver();
     public event OnGameOver GameOver;
 
+    public GameObject gameOverScreen;
 
     // Start is called before the first frame update
     void Start() {
@@ -26,7 +27,6 @@ public class Model : MonoBehaviour {
     }
 
     public void OnEnemyDestroyed(Enemy destroyedEnemy, bool byPlayer) {
-        // destroyedEnemy.ReceivedPoint -= OnReceivePoint;
         if (byPlayer) {
             totalScore++;
             hud.UpdateScore(totalScore);
@@ -47,9 +47,15 @@ public class Model : MonoBehaviour {
             GameOver();
         }
         CancelInvoke("DecreaseTime");
+        Invoke("openGameOverScreen",1);
     }
 
     public void OnPlayerDestroyed() {
         FinishGame();
+    }
+
+    public void openGameOverScreen() {
+        gameOverScreen.GetComponent<GameOverMenu>().setScore(totalScore);
+        gameOverScreen.SetActive(true);
     }
 }

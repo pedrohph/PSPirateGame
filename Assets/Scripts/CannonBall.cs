@@ -5,6 +5,7 @@ using UnityEngine;
 public class CannonBall : MonoBehaviour {
     [SerializeField] float bulletSpeed = 10;
     [SerializeField] int bulletDamage;
+    public GameObject explosion;
     // Update is called once per frame
     void Update() {
         transform.Translate(Vector3.down * bulletSpeed * Time.deltaTime);
@@ -16,6 +17,7 @@ public class CannonBall : MonoBehaviour {
         } else if (collision.gameObject.GetComponent<Enemy>() != null) {
             collision.gameObject.GetComponent<Enemy>().ReceiveDamage(bulletDamage);
         }
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

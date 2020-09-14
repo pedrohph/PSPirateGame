@@ -30,6 +30,9 @@ public class LifeStatus : MonoBehaviour {
         if(healthBar == null) {
             healthBar = transform.GetChild(0);
         }
+        if(currentLife < 0) {
+            currentLife = 0;
+        }
         healthBar.localScale = new Vector3(currentLife/ maxLife,1,0);
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5375856364490740172}
   - component: {fileID: 5375856364490740175}
   - component: {fileID: 5375856364490740162}
+  - component: {fileID: 7740581704830269150}
   m_Layer: 12
   m_Name: ChaserEnemy
   m_TagString: Untagged
@@ -158,6 +159,25 @@ MonoBehaviour:
     type: 3}
   lifeStatusObject: {fileID: 4711772509903510552, guid: c2b35ebcac550d34a817954543d1895e,
     type: 3}
+--- !u!95 &7740581704830269150
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5375856364490740163}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2ecf3d69a167334bb7fba962ee3cc85, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5375856364890978712
 GameObject:
   m_ObjectHideFlags: 0

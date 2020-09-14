@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
     public int enemyHealth;
+    int currentHealth;
     public float enemySpeed;
     public int enemyDamage;
 
@@ -19,11 +20,9 @@ public class Enemy : MonoBehaviour {
 
     [SerializeField] Transform[] evadeDestinationTransform = new Transform[2];
     public GameObject explosion;
+    private Animator animator;
 
     bool gameOver = false;
-
-    //public delegate void EnemyDestroyedByPlayer();
-    //public event EnemyDestroyedByPlayer ReceivedPoint;
 
     public delegate void EnemyDestroyed(Enemy enemy, bool byPlayer);
     public event EnemyDestroyed Destroyed;
@@ -32,8 +31,10 @@ public class Enemy : MonoBehaviour {
     LifeStatus lifeBar;
 
     private void Awake() {
+        animator = gameObject.GetComponent<Animator>();
+        currentHealth = enemyHealth;
         lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
-        lifeBar.Setup(transform, enemyHealth);
+        lifeBar.Setup(transform, currentHealth);
     }
 
     // Update is called once per frame
@@ -113,23 +114,31 @@ public class Enemy : MonoBehaviour {
     public virtual void Attack() { }
 
     public void ReceiveDamage(int damage) {
-        enemyHealth -= damage;
-        lifeBar.UpdateLife(enemyHealth);
-
-        if (enemyHealth <= 0) {
+        
+        currentHealth -= damage;
+        lifeBar.UpdateLife(currentHealth);
+        animator.SetInteger("Deterioration", (currentHealth * 100 / enemyHealth));
+        if (currentHealth <= 0) {
             Explode(true);
         }
+       
     }
 
     public void Explode(bool byPlayer) {
+        animator.SetInteger("Deterioration", 0);
+        lifeBar.UpdateLife(0);
         if (Destroyed != null) {
             Destroyed(this, byPlayer);
         }
         Instantiate(explosion, transform.position, transform.rotation);
-        Destroy(gameObject);
+        gameOver = true;
     }
 
     public void OnGameOver() {
         gameOver = true;
+    }
+
+    public void DestroyShip() {
+        Destroy(gameObject);
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ShooterEnemy : Enemy {
 
-    private Transform FrontCannon;
+    private Transform frontCannon;
 
+    public GameObject cannonExplosion;
     [SerializeField] Transform sightTransform = null;
     public float visionRange;
 
@@ -14,13 +15,14 @@ public class ShooterEnemy : Enemy {
 
     // Start is called before the first frame update
     void Start() {
-        FrontCannon = gameObject.transform.GetChild(0);
+        frontCannon = gameObject.transform.GetChild(0);
         sightTransform.localPosition = Vector3.down * visionRange;
     }
 
     public override void Attack() {
         attacking = true;
-        GameObject newBullet = Instantiate(bullet, FrontCannon.position, FrontCannon.rotation);
+        Instantiate(cannonExplosion, frontCannon.position, frontCannon.rotation, transform);
+        GameObject newBullet = Instantiate(bullet, frontCannon.position, frontCannon.rotation);
         newBullet.GetComponent<CannonBall>().Setup(enemyDamage, shipCollider);
         newBullet.layer = LayerMask.NameToLayer("EnemyBullet");
         StartCoroutine(Recharge());
