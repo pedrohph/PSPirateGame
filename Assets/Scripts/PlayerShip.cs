@@ -38,20 +38,6 @@ public class PlayerShip : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update() {
-        //Remover ao fazer o sistema de controles
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            MoveForward();
-        }
-        if (Input.GetKeyDown(KeyCode.Z)) {
-            FrontShoot();
-        } else if (Input.GetKeyDown(KeyCode.X)) {
-            SideShoot();
-        }
-        RotateShip(Input.GetAxis("Horizontal"));
-    }
-
     public void MoveForward() {
         transform.Translate(Vector3.down * Time.deltaTime * playerSpeed);
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -worldDimensions.x, worldDimensions.x), Mathf.Clamp(transform.position.y, -worldDimensions.y, worldDimensions.y));
@@ -82,7 +68,6 @@ public class PlayerShip : MonoBehaviour {
             if (Destroyed != null) {
                 Destroyed();
             }
-            this.enabled = false;
         }
     }
 }

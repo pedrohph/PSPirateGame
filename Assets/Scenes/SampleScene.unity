@@ -472,7 +472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hud: {fileID: 729242314}
-  time: 60
   totalScore: 0
   player: {fileID: 918542161}
   gameOverScreen: {fileID: 77349071}
@@ -1189,6 +1188,7 @@ GameObject:
   - component: {fileID: 918542164}
   - component: {fileID: 918542165}
   - component: {fileID: 918542166}
+  - component: {fileID: 918542167}
   m_Layer: 10
   m_Name: PlayerShip
   m_TagString: Player
@@ -1354,6 +1354,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &918542167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918542160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3dd5f5d62eaa3148acba85a976ff68c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 155179794}
 --- !u!1 &949390193
 GameObject:
   m_ObjectHideFlags: 0
