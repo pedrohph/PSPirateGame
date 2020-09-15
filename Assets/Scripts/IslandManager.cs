@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class IslandManager : MonoBehaviour {
     [SerializeField] List<GameObject> islands = new List<GameObject>();
+    [SerializeField] SpriteRenderer backGroundRenderer = null;
+    Vector3 worldDimensions;
 
     private void Awake() {
+        worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
+        ResizeSea();
         SpawnIslands();
     }
 
     private void SpawnIslands() {
         int islandId;
         float chancesCreate = 80;
-        //Vector3 spawnPosition;
-        Vector3 worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
 
-        for (int x = (int)-worldDimensions.x + 1; x < worldDimensions.x; x+=3) {
-            for (int y = (int)-worldDimensions.y + 1; y < worldDimensions.y; y+=2) {
+        for (int x = (int)-worldDimensions.x + 1; x < worldDimensions.x; x += 3) {
+            for (int y = (int)-worldDimensions.y + 1; y < worldDimensions.y; y += 2) {
                 if (x != 0 && y != 0) {
                     if (chancesCreate >= Random.Range(0, 100)) {
                         if (!Physics2D.CircleCast(new Vector3(x, y, 0), 2f, Vector2.zero, 1 << LayerMask.NameToLayer("Island"))) {
@@ -30,5 +32,9 @@ public class IslandManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void ResizeSea() {
+        backGroundRenderer.size = worldDimensions * 2;
     }
 }

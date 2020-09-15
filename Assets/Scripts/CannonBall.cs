@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CannonBall : MonoBehaviour {
+    [Header("Bullet Parameters")]
     [SerializeField] float bulletSpeed = 10;
-    [SerializeField] int bulletDamage;
+    int bulletDamage;
     public GameObject explosion;
+
     // Update is called once per frame
     void Update() {
         transform.Translate(Vector3.down * bulletSpeed * Time.deltaTime);

@@ -5,18 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
-    int spawnEverySeconds = 1;
-    int sessionTime = 60;
-
     public Animator mainMenuAnimator;
     public Animator optionsAnimator;
 
-    public Button leftArrow;
-    public Button rightArrow;
-
+    int spawnEverySeconds = 1;
+    int sessionTime = 60;
+    
     public int maxSpawnTime = 10;
     public int minSpawnTime = 1;
-
+    
+    public Button leftArrow;
+    public Button rightArrow;
     public Text textSpawnTime;
 
     public Text textTimeSession;

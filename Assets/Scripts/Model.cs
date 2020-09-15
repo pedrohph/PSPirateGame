@@ -3,28 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Model : MonoBehaviour {
-    public Hud hud;
-
-    int time = 60;
-    public int totalScore = 0;
-    public PlayerShip player;
-
     public delegate void OnGameOver();
     public event OnGameOver GameOver;
 
+    int time = 60;
+    int totalScore = 0;
+    [Header("Player information")]
+    public PlayerShip player;
+
+    [Header("GUI")]
+    public Hud hud;
     public GameObject gameOverScreen;
 
     // Start is called before the first frame update
     void Start() {
-        time = PlayerPrefs.GetInt("SessionTime", 60);
         player.Destroyed += OnPlayerDestroyed;
+
+        time = PlayerPrefs.GetInt("SessionTime", 60);
         hud.UpdateTime(time);
         InvokeRepeating("DecreaseTime", 1, 1);
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 
     public void OnEnemyDestroyed(Enemy destroyedEnemy, bool byPlayer) {

@@ -6,13 +6,16 @@ public class ShooterEnemy : Enemy {
 
     private Transform frontCannon;
 
-    public GameObject cannonExplosion;
-    [SerializeField] Transform sightTransform = null;
+    [Header("Shooter Parameters")]
+    public float rechargeTime;
     public float visionRange;
 
-    public GameObject bullet;
-    public float rechargeTime;
+    public Transform sightTransform = null;
 
+    [Header("Shooter Objects")]
+    public GameObject bullet;
+    public GameObject cannonExplosion;
+    
     // Start is called before the first frame update
     void Start() {
         frontCannon = gameObject.transform.GetChild(0);

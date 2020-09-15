@@ -3,36 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+    public delegate void EnemyDestroyed(Enemy enemy, bool byPlayer);
+    public event EnemyDestroyed Destroyed;
+    [Header("Enemy Parameters")]
     public int enemyHealth;
     int currentHealth;
     public float enemySpeed;
     public int enemyDamage;
 
+    [Header("Player information")]
     public Transform playerTransform;
+
+    [Header("Behaviour Variables")]
     float angleRotation;
     Vector3 targetPosition;
     Vector3 targetVectorDistance;
-
-    [SerializeField] protected Collider2D shipCollider;
+    Vector3 worldDimensions;
 
     protected bool evading = false;
     protected bool attacking = false;
 
     [SerializeField] Transform[] evadeDestinationTransform = new Transform[2];
-    public GameObject explosion;
-    private Animator animator;
+    [SerializeField] Transform offScreenIndicator;
 
     bool gameOver = false;
 
-    public delegate void EnemyDestroyed(Enemy enemy, bool byPlayer);
-    public event EnemyDestroyed Destroyed;
-
+    [Header("External Objects")]
+    public GameObject explosion;
     public GameObject lifeStatusObject;
     LifeStatus lifeBar;
 
+    protected Collider2D shipCollider;
+    private Animator animator;
+    
     private void Awake() {
+        worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
+        worldDimensions -= Vector3.one * 0.25f;
+
         animator = gameObject.GetComponent<Animator>();
+        shipCollider = gameObject.GetComponent<Collider2D>();
+
+        offScreenIndicator = transform.GetChild(transform.childCount - 1);
+        
         currentHealth = enemyHealth;
+
         lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
         lifeBar.Setup(transform, currentHealth);
     }
@@ -41,6 +55,10 @@ public class Enemy : MonoBehaviour {
     void Update() {
         if (!attacking && !gameOver) {
             Move();
+        }
+
+        if (offScreenIndicator.gameObject.activeSelf) {
+            offScreenIndicator.position = new Vector3(Mathf.Clamp(transform.position.x, -worldDimensions.x, worldDimensions.x), Mathf.Clamp(transform.position.y, -worldDimensions.y, worldDimensions.y), 0);
         }
     }
 
@@ -140,5 +158,12 @@ public class Enemy : MonoBehaviour {
 
     public void DestroyShip() {
         Destroy(gameObject);
+    }
+
+    void OnBecameInvisible() {
+        offScreenIndicator.gameObject.SetActive(true);
+    }
+    void OnBecameVisible() {
+        offScreenIndicator.gameObject.SetActive(false);
     }
 }

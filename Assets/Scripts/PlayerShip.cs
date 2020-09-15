@@ -6,36 +6,45 @@ public class PlayerShip : MonoBehaviour {
     public delegate void PlayerDestroyed();
     public event PlayerDestroyed Destroyed;
 
+    [Header("Player parameters")]
     public int playerHealth;
     int currentHealth;
     public float playerSpeed;
     public int playerDamage;
 
+    [Header("Components")]
     private Animator animator;
+    Collider2D shipCollider = null;
 
+    [Header("Cannons")]
     private Transform frontCannon;
     private Transform[] lateralCannon = new Transform[8];
-
-    [SerializeField] private Collider2D shipCollider = null;
-
+    
+    [Header("External Objects")]
     public GameObject bullet;
     public GameObject cannonExplosion;
-
     public GameObject lifeStatusObject;
     LifeStatus lifeBar;
+
     Vector3 worldDimensions;
+
     // Start is called before the first frame update
     void Start() {
-        worldDimensions =Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
+        worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
         worldDimensions -= Vector3.one * 0.5f;
+
+        shipCollider = gameObject.GetComponent<Collider2D>();
         animator = gameObject.GetComponent<Animator>();
-        currentHealth = playerHealth;
-        lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
-        lifeBar.Setup(transform, currentHealth);
+
         frontCannon = gameObject.transform.GetChild(0);
         for (int i = 0; i < 6; i++) {
             lateralCannon[i] = gameObject.transform.GetChild(i + 1);
         }
+
+        currentHealth = playerHealth;
+
+        lifeBar = Instantiate(lifeStatusObject).GetComponent<LifeStatus>();
+        lifeBar.Setup(transform, currentHealth);
     }
 
     public void MoveForward() {

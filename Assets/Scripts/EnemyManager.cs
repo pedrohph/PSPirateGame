@@ -4,27 +4,29 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
     [SerializeField] List<GameObject> enemies = new List<GameObject>();
+    float spawnTime = 2;
+
     public Model model;
     public GameObject player;
+
     Transform playerTransform;
+    
     Vector3 spawnPosition;
-
-    public float spawnTime = 2;
-
     float screenSizeX;
     float screenSizeY;
 
     // Start is called before the first frame update
     void Start() {
-        spawnTime = PlayerPrefs.GetInt("SpawnTime", 1);
-        playerTransform = player.transform;
-
         model.GameOver += OnGameOver;
-
+        
         Vector3 worldDimensions = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 10));
         screenSizeX = worldDimensions.x - 1;
         screenSizeY = worldDimensions.y - 1;
 
+        spawnTime = PlayerPrefs.GetInt("SpawnTime", 1);
+
+        playerTransform = player.transform;
+        
         InvokeRepeating("SpawnEnemies", spawnTime, spawnTime);
     }
 
